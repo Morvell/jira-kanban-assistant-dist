@@ -106253,14 +106253,32 @@ class Browser {
 }
 Browser.type = "languageDetector";
 const locale$1 = { "ru": "Russian", "en": "English" };
-const app$1 = { "title": { "without-name": "Jira Kanban assistant", "with-name": "Jira Kanban assistant: {{name}}" }, "tabs": { "main": "Main statistics", "total-wip": "Total WIP", "wip-by-columns": "WIPs by columns", "time-by-columns": "Bottleneck search", "lead-time-distributions": "Lead time distributions", "long-times": "Control Chart", "analyze-by-wip": "Analyze by WIP", "lead-cycle-times": "Lead, cycle times & etc", "accumulated-wip": "Accumulated WIP", "summary-data": "Summary", "times-by-columns": "Time by columns", "wia": "Work item age", "trend": "Trends" }, "config-info": { "text": "Selected columns: {{columns}}, swimlanes: {{swimlanes}}, filters: {{filters}}", "help": { "text": "Information about columns, lines and filters selected for analysis.\nTo change settings, click on the gear icon.\nFor a detailed description, click on this icon.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#configuration" } } };
+const app$1 = { "title": { "without-name": "Jira Kanban assistant", "with-name": "Jira Kanban assistant: {{name}}" }, "tabs": { "main": "Main statistics", "total-wip": "Total WIP", "wip-by-columns": "WIPs by columns", "time-by-columns": "Bottleneck search", "lead-time-distributions": "Lead time distributions", "long-times": "Control Chart", "analyze-by-wip": "Analyze by WIP", "lead-cycle-times": "Lead, cycle times & etc", "accumulated-wip": "Accumulated WIP", "summary-data": "Summary", "times-by-columns": "Time by columns", "wia": "Work item age", "trend": "Trends", "sankey": "Sankey transitions" }, "config-info": { "text": "Selected columns: {{columns}}, swimlanes: {{swimlanes}}, filters: {{filters}}", "help": { "text": "Information about columns, lines and filters selected for analysis.\nTo change settings, click on the gear icon.\nFor a detailed description, click on this icon.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#configuration" } } };
 const main$1 = { "title": "Kanban statistics: {{title}}", "yAxis": { "avg-wip": "Avg WIP", "eff-wait": "Eff / Wait, %", "lead-cycle": "Lead / Cycle, days", "throughput": "Throughput, 1/period" }, "series": { "efficiency": "Efficiency", "wait": "Wait", "avg-total-wip": "Avg total WIP", "throughput": { "name": "Throughput", "avg": "Avg", "med": "Med" }, "lead": "Lead time", "cycle": "Cycle time", "lead-throughput": { "name": "Lead throughput" }, "cycle-throughput": { "name": "Cycle throughput" } }, "help": { "text": "On this screen is presented:\nThe average value of WIP for periods.\nThe ratio of time how many completed tasks were carried out in the columns of work by the time spent in the waiting columns for the periods.\nDelivery time and cycle of completed tasks for periods.\nThe capacity of the team for the period.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#main-screen" } };
 const wia$1 = { "help": { "text": "The amount of time that has passed since the start of work on the elements until the current moment\nA leading indicator that applies to active pending items.\nIt shows which ones are progressing well and which ones are not.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#work-item-age" }, "tab": { "lead": "Over lead time", "cycle": "Over cycle time", "column": "Over column time" }, "title": { "lead": "Work item age over lead time : {{title}}", "cycle": "Work item age over cycle time : {{title}}", "column": "Work item age over column time : {{title}}" } };
 const trend$1 = { "help": { "text": "Trend analysis of key performance indicators.\nThe trend line is built using the linear regression method.\nThe trend direction is determined by the angle of inclination of the trend line.\nIf the angle is positive, then the trend is increasing, if negative, then decreasing.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#trends" }, "title": "Trends: {{title}}", "yAxis": { "throughput": "Throughput, issue/period", "awip": "Accumulated WIP, issue*days" }, "series": { "throughput": "Throughput", "awip": "Accumulated WIP" } };
+const sankey$1 = { 
+  "period-filter": "Period filter", 
+  "all-periods": "All periods",
+  "transitions-table-title": "Transitions Details",
+  "tasks": "tasks",
+  "transitions": "transitions",
+  "filtered-by-transition": "Filtered by transition",
+  "clear-filter": "Clear filter",
+  "click-hint": "💡 Click on any transition in the diagram to filter tasks by that specific transition",
+  "table": {
+    "task": "Task",
+    "from-column": "From Column",
+    "to-column": "To Column", 
+    "date": "Date",
+    "assignee": "Assignee"
+  }
+};
 const en = {
   locale: locale$1,
   app: app$1,
   main: main$1,
+  sankey: sankey$1,
   "total-wip": { "title": "Total WIP: {{title}}", "yAxis": { "wip": "Count issues in progress", "periods": "WIP / throughput, per.", "throughput": "Throughput, 1/per." }, "series": { "max": "Maximum", "avg": "Average", "med": "Median", "min": "Minimum", "throughput": { "name": "Throughput", "avg": "Avg. throughput", "med": "Med. throughput", "q3": "75% throughput" }, "periods": { "avg": "WIP / avg. throughput", "med": "WIP / med. throughput", "q3": "WIP / 75% throughput" } }, "help": { "text": "This screen contains aggregated values of total WIP on the board by the periods.\nAs well as the number of periods for which the current WIP will be implemented based on the average, median and 75 percentile throughput", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#total-wip" } },
   "wip-by-columns": { "tab": { "max": "Maximums", "avg": "Averages", "med": "Medians", "min": "Minimums" }, "title": { "name": { "max": "Maximums", "avg": "Averages", "med": "Medians", "min": "Minimums" }, "title": "{{aggr}} WIP by columns : {{title}}" }, "yAxis": { "name": "Count issues in progress" }, "help": { "text": "This screen contains aggregated values of WIP in the columns according by the periods.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#wips-by-columns" } },
   "times-by-columns": { "tab": { "max": "Maximums", "avg": "Averages", "med": "Medians", "min": "Minimums", "sum": "Sum" }, "title": { "name": { "max": "Maximums", "avg": "Averages", "med": "Medians", "min": "Minimums", "sum": "Sum" }, "title": "{{aggr}} of time by columns : {{title}}" }, "yAxis": { "name": "Time spent in columns, days" }, "help": { "text": "This screen presents aggregated values of time spent by completed tasks in columns by period.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.en.md#time-by-columns" } },
@@ -106276,14 +106294,32 @@ const en = {
   trend: trend$1
 };
 const locale = { "ru": "Русский", "en": "English" };
-const app = { "title": { "without-name": "Jira Kanban assistant", "with-name": "Jira Kanban assistant: {{name}}" }, "tabs": { "main": "Основная статистика", "total-wip": "Общий WIP", "wip-by-columns": "WIP по колонкам", "time-by-columns": "Поиск узких мест", "lead-time-distributions": "Распределение времени выполнения", "long-times": "Контрольная диаграмма", "analyze-by-wip": "Анализ по WIP", "lead-cycle-times": "Время поставки, цикла и т.п.", "accumulated-wip": "Накопленный WIP", "summary-data": "Сводка", "times-by-columns": "Время по колонкам", "wia": "Возраст рабочего элемента", "trend": "Тренды" }, "config-info": { "text": "Выбрано колонок: {{columns}}, линий: {{swimlanes}}, фильтров: {{filters}}", "help": { "text": "Информация о выбранных для анализа колонок, линий и фильтров.\nЧтобы изменить настройки, нажмите на значок шестерёнки.\nДля подробного описания кликните на значок.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0" } } };
+const app = { "title": { "without-name": "Jira Kanban assistant", "with-name": "Jira Kanban assistant: {{name}}" }, "tabs": { "main": "Основная статистика", "total-wip": "Общий WIP", "wip-by-columns": "WIP по колонкам", "time-by-columns": "Поиск узких мест", "lead-time-distributions": "Распределение времени выполнения", "long-times": "Контрольная диаграмма", "analyze-by-wip": "Анализ по WIP", "lead-cycle-times": "Время поставки, цикла и т.п.", "accumulated-wip": "Накопленный WIP", "summary-data": "Сводка", "times-by-columns": "Время по колонкам", "wia": "Возраст рабочего элемента", "trend": "Тренды", "sankey": "Переходы (Sankey)" }, "config-info": { "text": "Выбрано колонок: {{columns}}, линий: {{swimlanes}}, фильтров: {{filters}}", "help": { "text": "Информация о выбранных для анализа колонок, линий и фильтров.\nЧтобы изменить настройки, нажмите на значок шестерёнки.\nДля подробного описания кликните на значок.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0" } } };
 const main = { "title": "Статистика Канбана: {{title}}", "yAxis": { "avg-wip": "Средний WIP", "eff-wait": "Эфф / ожид., %", "lead-cycle": "Поставка / цикл, дн.", "throughput": "Проп. сп., 1/период" }, "series": { "efficiency": "Эффективность", "wait": "Потери", "avg-total-wip": "Ср. общий WIP", "throughput": { "name": "Пропускная способность", "avg": "Сред.", "med": "Медиана" }, "lead": "Время поставки", "cycle": "Время цикла", "lead-throughput": { "name": "Пропускная способность в поставке" }, "cycle-throughput": { "name": "Пропускная способность в цикле" } }, "help": { "text": "На этом экране представлены:\nСреднее значение незавершенной работы (WIP) по периодам.\nОтношение времени сколько завершенные задачи провели в колонках работы ко времени проведенном в колонках ожидания по периодам.\nВремя поставки и цикла завершенных задач по периодам.\nПропускная способность команды по периодам.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D0%B9-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD" } };
 const wia = { "help": { "text": "Количество времени, которое прошло с момента начала работы над элементов до текущего момента\nОпережающий индикатор, который применяется к активным незавершенным элементам.\nОн показывает какие из них продвигаются хорошо, а какие - нет.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%92%D1%80%D0%B5%D0%BC%D1%8F-%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8-%D1%8D%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%B0" }, "tab": { "lead": "По времени поставки", "cycle": "По времени цикла", "column": "По времени в колонке" }, "title": { "lead": "Возраст рабочего элемента по времени поставки : {{title}}", "cycle": "Возраст рабочего элемента по времени цикла : {{title}}", "column": "Возраст рабочего элемента по времени в колонке : {{title}}" } };
 const trend = { "help": { "text": "Тренды изменения ключевых показателей команды по периодам.\nИспользуется для оценки влияния изменений на показатели.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#тренды" }, "title": "Тренды: {{title}}", "yAxis": { "throughput": "Проход, задач/период", "awip": "Накопленный объём незавершенной работы, задач * дни" }, "series": { "throughput": "Пропускная способность", "awip": "Накопленный объём незавершенной работы" } };
+const sankey = { 
+  "period-filter": "Фильтр по периоду", 
+  "all-periods": "Все периоды",
+  "transitions-table-title": "Детали переходов",
+  "tasks": "задач",
+  "transitions": "переходов",
+  "filtered-by-transition": "Отфильтровано по переходу",
+  "clear-filter": "Сбросить фильтр",
+  "click-hint": "💡 Кликните на любой переход в диаграмме, чтобы отфильтровать задачи по этому переходу",
+  "table": {
+    "task": "Задача",
+    "from-column": "Из колонки",
+    "to-column": "В колонку",
+    "date": "Дата",
+    "assignee": "Исполнитель"
+  }
+};
 const ru = {
   locale,
   app,
   main,
+  sankey,
   "total-wip": { "title": "Общая незавершенная работа (WIP): {{title}}", "yAxis": { "wip": "Число незавершенных задач", "periods": "WIP / проп. сп., пер.", "throughput": "Проп. сп., 1/пер." }, "series": { "max": "Максимум", "avg": "Среднее", "med": "Медиана", "min": "Минимум", "throughput": { "name": "Пропускная способность", "avg": "Проп. сп. сред.", "med": "Проп. сп. медиана", "q3": "Проп. сп. 75%" }, "periods": { "avg": "WIP / ср. проп. сп.", "med": "WIP / мед. проп. сп.", "q3": "WIP / 75% проп. сп." } }, "help": { "text": "На этом экране представлены агрегированные значения общей незавершенной работы на доске по периодам.\nА так же Количество периодов, за которые текущий WIP будет реализован исходя из средней, медианы и 75 персентили пропускной способности", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%BE%D0%B1%D1%89%D0%B8%D0%B9-wip" } },
   "wip-by-columns": { "tab": { "max": "Максимумы", "avg": "Средние", "med": "Медианы", "min": "Минимумы" }, "title": { "name": { "max": "Максимумы", "avg": "Средние", "med": "Медианы", "min": "Минимумы" }, "title": "{{aggr}} незавершенной работы WIP по колонкам : {{title}}" }, "yAxis": { "name": "Число незавершенных задач" }, "help": { "text": "На этом экране представлены агрегированные значения незавершенной работы в колонках по периодам.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#wip-%D0%BF%D0%BE-%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BA%D0%B0%D0%BC" } },
   "times-by-columns": { "tab": { "max": "Максимумы", "avg": "Средние", "med": "Медианы", "min": "Минимумы", "sum": "Сумма" }, "title": { "name": { "max": "Максимумы", "avg": "Средние", "med": "Медианы", "min": "Минимумы", "sum": "Сумма" }, "title": "{{aggr}} времени проведённых в колонках : {{title}}" }, "yAxis": { "name": "Время проведённое в колонках, дни" }, "help": { "text": "На этом экране представлены агрегированные значения времени, проведённых завершенными задачами в колонках по периодам.", "link": "https://github.com/tsergey-tm/jira-kanban-assistant-dist/blob/master/docs/plugin-doc.ru.md#%D0%92%D1%80%D0%B5%D0%BC%D1%8F%20%D0%BF%D0%BE%20%D0%BA%D0%BE%D0%BB%D0%BE%D0%BD%D0%BA%D0%B0%D0%BC" } },
@@ -107480,6 +107516,457 @@ const TrendChart = ({ title, periodStat }) => {
     )
   ] });
 };
+
+const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) => {
+  const { t: t2 } = useTranslation();
+  const [selectedPeriod, setSelectedPeriod] = React.useState('all');
+  const [transitionsData, setTransitionsData] = React.useState([]);
+  const [groupedTransitions, setGroupedTransitions] = React.useState([]);
+  const [selectedTransition, setSelectedTransition] = React.useState(null);
+  const [filteredTransitions, setFilteredTransitions] = React.useState([]);
+  const [sankeyData, setSankeyData] = React.useState({ data: [], links: [] });
+  
+  // Function to create Jira task URL
+  const getJiraTaskUrl = (issueKey) => {
+    if (!issueKey) return '#';
+    
+    // Get base URL from window.location.hash (same way as DataLoader does)
+    const queryString = window.location.hash.substring(1);
+    const urlParams = new URLSearchParams(queryString);
+    const jiraBase = urlParams.get("base") || "";
+    
+    console.log('Jira URL construction:', { issueKey, jiraBase, queryString });
+    
+    if (!jiraBase) return '#';
+    const fullUrl = `${jiraBase}/browse/${issueKey}`;
+    console.log('Generated Jira URL:', fullUrl);
+    return fullUrl;
+  };
+  
+  // Handle click on Sankey diagram
+  const handleSankeyClick = (params) => {
+    console.log('Sankey click:', params);
+    
+    if (params.componentType === 'series' && params.dataType === 'edge') {
+      // Clicked on a link (transition)
+      const linkData = params.data;
+      const transitionKey = `${linkData.source}__${linkData.target}`;
+      console.log('Selected transition:', transitionKey);
+      setSelectedTransition(transitionKey);
+    } else {
+      // Clicked elsewhere, reset filter
+      setSelectedTransition(null);
+    }
+  };
+  
+  // Effect for updating Sankey diagram data when period changes
+  React.useEffect(() => {
+    console.log('SankeyTransitions useEffect triggered:', { 
+      kanbanCFD: !!kanbanCFD, 
+      columnChanges: kanbanCFD?.columnChanges ? Object.keys(kanbanCFD.columnChanges).length : 0,
+      columns: columns?.length || 0,
+      selectedPeriod 
+    });
+    
+    if (!kanbanCFD || !kanbanCFD.columnChanges || !columns) {
+      console.log('Missing required data:', { kanbanCFD: !!kanbanCFD, columnChanges: !!kanbanCFD?.columnChanges, columns: !!columns });
+      return;
+    }
+    
+    console.log('Updating Sankey data for period:', selectedPeriod);
+    
+    // Determine time range for filtering
+    let startTime = null;
+    let endTime = null;
+
+    if (selectedPeriod !== 'all' && periodStat && periodStat.length > 0) {
+      const periodIndex = parseInt(selectedPeriod);
+      if (periodIndex >= 0 && periodIndex < periodStat.length) {
+        const period = periodStat[periodIndex];
+        endTime = period.date;
+        if (periodIndex > 0) {
+          startTime = periodStat[periodIndex - 1].date;
+        } else {
+          startTime = period.date - (7 * 24 * 60 * 60 * 1000);
+        }
+        
+        console.log('Time filtering:', { 
+          selectedPeriod, 
+          periodIndex, 
+          startTime: new Date(startTime).toLocaleString(), 
+          endTime: new Date(endTime).toLocaleString(),
+          periodDate: new Date(period.date).toLocaleString()
+        });
+      }
+    }
+
+    const nodeSet = new Set();
+    const linksMap = new Map();
+    const detailedTransitions = [];
+
+    let totalTransitions = 0;
+    let filteredTransitions = 0;
+    
+    for (const [timeStr, transitions] of Object.entries(kanbanCFD.columnChanges)) {
+      const transitionTime = parseInt(timeStr);
+      totalTransitions += transitions.length;
+
+      // Filter by time period if specified
+      if (startTime !== null && endTime !== null) {
+        if (transitionTime < startTime || transitionTime > endTime) {
+          continue;
+        }
+      }
+      
+      filteredTransitions += transitions.length;
+
+      for (const transition of transitions) {
+        // Try different possible field names for transitions
+        const fromCol = transition.from || transition.columnFrom;
+        const toCol = transition.to || transition.columnTo;
+        
+        if (fromCol !== undefined && toCol !== undefined) {
+          const fromIndex = parseInt(fromCol);
+          const toIndex = parseInt(toCol);
+          
+          if (fromIndex >= 0 && toIndex >= 0 && fromIndex < columns.length && toIndex < columns.length) {
+            const fromName = columns[fromIndex]?.name || `Column ${fromIndex}`;
+            const toName = columns[toIndex]?.name || `Column ${toIndex}`;
+            
+            // Only allow forward transitions for Sankey diagram
+            if (toIndex > fromIndex) {
+              console.log('Processing forward transition:', { fromIndex, toIndex, fromCol, toCol, fromName, toName });
+              nodeSet.add(fromName);
+              nodeSet.add(toName);
+              
+              const key = `${fromName}__${toName}`;
+              linksMap.set(key, (linksMap.get(key) || 0) + 1);
+              
+              // Collect detailed transition data for the table
+              detailedTransitions.push({
+                issueKey: transition.issueKey || transition.key || `TASK-${transitionTime}`,
+                issueId: transition.issueId || transition.id,
+                fromColumn: fromName,
+                toColumn: toName,
+                fromColumnId: fromCol,
+                toColumnId: toCol,
+                transitionTime: transitionTime,
+                transitionDate: new Date(transitionTime).toLocaleString(),
+                assignee: transition.assignee,
+                summary: transition.summary || transition.title
+              });
+            }
+          }
+        }
+      }
+    }
+
+    // Sort transitions by date (newest first) and update state
+    const sortedTransitions = detailedTransitions.sort((a, b) => b.transitionTime - a.transitionTime);
+    setTransitionsData(sortedTransitions);
+
+    const data = Array.from(nodeSet).map(name => ({ name, draggable: true }));
+    const links = Array.from(linksMap.entries()).map(([k, v]) => {
+      const [source, target] = k.split("__");
+      return { source, target, value: v };
+    });
+
+    console.log('Sankey data generated:', { 
+      nodes: data.length, 
+      links: links.length, 
+      nodeSet: Array.from(nodeSet),
+      linksMap: Array.from(linksMap.entries()),
+      totalTransitions,
+      filteredTransitions,
+      detailedTransitionsCount: detailedTransitions.length
+    });
+    
+    if (data.length === 0) {
+      console.log('No nodes generated! Debug info:', {
+        selectedPeriod,
+        startTime: startTime ? new Date(startTime).toLocaleString() : 'null',
+        endTime: endTime ? new Date(endTime).toLocaleString() : 'null',
+        periodStatLength: periodStat?.length || 0,
+        kanbanCFDKeys: Object.keys(kanbanCFD.columnChanges).length,
+        firstTransitionTime: Object.keys(kanbanCFD.columnChanges)[0] ? new Date(parseInt(Object.keys(kanbanCFD.columnChanges)[0])).toLocaleString() : 'none',
+        lastTransitionTime: Object.keys(kanbanCFD.columnChanges).length > 0 ? new Date(parseInt(Object.keys(kanbanCFD.columnChanges)[Object.keys(kanbanCFD.columnChanges).length - 1])).toLocaleString() : 'none',
+        totalTransitions,
+        filteredTransitions,
+        columnsLength: columns?.length || 0,
+        columns: columns?.map(c => c.name) || []
+      });
+      
+      // Log first few transitions to see their structure
+      const firstKey = Object.keys(kanbanCFD.columnChanges)[0];
+      if (firstKey) {
+        console.log('First transition example:', {
+          time: firstKey,
+          transitions: kanbanCFD.columnChanges[firstKey].slice(0, 3)
+        });
+        
+        // Log transition structure in detail
+        const firstTransition = kanbanCFD.columnChanges[firstKey][0];
+        if (firstTransition) {
+          console.log('First transition details:', firstTransition);
+          console.log('Transition keys:', Object.keys(firstTransition));
+          console.log('Transition values:', {
+            columnTo: firstTransition.columnTo,
+            key: firstTransition.key,
+            statusTo: firstTransition.statusTo,
+            from: firstTransition.from,
+            to: firstTransition.to,
+            columnFrom: firstTransition.columnFrom
+          });
+        }
+      }
+    }
+
+    setSankeyData({ data, links });
+  }, [kanbanCFD, columns, periodStat, selectedPeriod]);
+  
+  // Effect for filtering transitions when selectedTransition changes
+  React.useEffect(() => {
+    if (!transitionsData.length) return;
+    
+    // Filter transitions by selected transition if specified
+    let filteredTransitionsResult = transitionsData;
+    if (selectedTransition) {
+      const [fromCol, toCol] = selectedTransition.split('__');
+      filteredTransitionsResult = transitionsData.filter(transition => 
+        transition.fromColumn === fromCol && transition.toColumn === toCol
+      );
+      console.log('Filtered transitions by selected transition:', selectedTransition, filteredTransitionsResult.length);
+    }
+    setFilteredTransitions(filteredTransitionsResult);
+    
+    // Group transitions by issueKey
+    const groupedByTask = {};
+    filteredTransitionsResult.forEach(transition => {
+      const key = transition.issueKey;
+      if (!groupedByTask[key]) {
+        groupedByTask[key] = {
+          issueKey: key,
+          issueId: transition.issueId,
+          assignee: transition.assignee,
+          summary: transition.summary,
+          transitions: []
+        };
+      }
+      groupedByTask[key].transitions.push(transition);
+    });
+    
+    // Convert to array and sort by most recent transition
+    const groupedArray = Object.values(groupedByTask).sort((a, b) => {
+      const aLatest = Math.max(...a.transitions.map(t => t.transitionTime));
+      const bLatest = Math.max(...b.transitions.map(t => t.transitionTime));
+      return bLatest - aLatest;
+    });
+    
+    setGroupedTransitions(groupedArray);
+  }, [transitionsData, selectedTransition]);
+  
+  const option = React.useMemo(() => {
+    console.log('SankeyTransitions option:', { title, sankeyData });
+    
+    return {
+      title: { text: t2("app.tabs.sankey") + ": " + title, left: "center" },
+      tooltip: { 
+        trigger: "item",
+        formatter: "{b}: {c} transitions"
+      },
+      series: [{
+        type: "sankey",
+        data: sankeyData.data,
+        links: sankeyData.links,
+        emphasis: { focus: "adjacency" },
+        lineStyle: { color: "gradient", curveness: 0.5 },
+        draggable: true,
+        label: { color: "auto" }
+      }]
+    };
+  }, [title, sankeyData, t2]);
+      
+      return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { 
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { 
+            style: { marginBottom: "10px" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "5px" },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("label", { 
+                    children: t2("app.tabs.sankey") + " - " + t2("sankey.period-filter") + ":"
+                  }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("select", { 
+                    value: selectedPeriod,
+                    onChange: (e) => setSelectedPeriod(e.target.value),
+                    style: { padding: "5px", borderRadius: "4px", border: "1px solid #ccc" },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: t2("sankey.all-periods") }),
+                      ...(periodStat ? periodStat.map((period, index) => 
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("option", { 
+                          key: index, 
+                          value: index.toString(), 
+                          children: new Date(period.date).toLocaleDateString() + " (" + (period.throughput || 0) + ")"
+                        })
+                      ) : [])
+                    ]
+                  })
+                ]
+              }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                style: { fontSize: "12px", color: "#666", fontStyle: "italic" },
+                children: t2("sankey.click-hint")
+              })
+            ]
+          }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(EChartsReact, { 
+            option, 
+            notMerge: true, 
+            style: { height: "40vh" },
+            onEvents: {
+              click: handleSankeyClick
+            }
+          }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+            style: { marginTop: "20px" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px" },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { 
+                    children: t2("sankey.transitions-table-title") + " (" + groupedTransitions.length + " " + t2("sankey.tasks") + ", " + (selectedTransition ? filteredTransitions.length : transitionsData.length) + " " + t2("sankey.transitions") + ")" + (selectedTransition ? " - " + t2("sankey.filtered-by-transition") + ": " + selectedTransition.replace('__', ' → ') : ""),
+                    style: { margin: 0 }
+                  }),
+                  selectedTransition && /* @__PURE__ */ jsxRuntimeExports.jsx("button", {
+                    onClick: () => setSelectedTransition(null),
+                    style: { 
+                      padding: "5px 10px", 
+                      backgroundColor: "#f0f0f0", 
+                      border: "1px solid #ccc", 
+                      borderRadius: "4px", 
+                      cursor: "pointer",
+                      fontSize: "12px"
+                    },
+                    children: t2("sankey.clear-filter")
+                  })
+                ]
+              }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                style: { 
+                  maxHeight: "60vh", 
+                  overflowY: "auto", 
+                  border: "1px solid #ddd", 
+                  borderRadius: "4px"
+                },
+                children: groupedTransitions.map((taskGroup, groupIndex) =>
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                    key: taskGroup.issueKey,
+                    style: {
+                      marginBottom: "15px",
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "6px",
+                      backgroundColor: groupIndex % 2 === 0 ? "#fafafa" : "#fff"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                        style: {
+                          backgroundColor: "#f0f0f0",
+                          padding: "10px",
+                          borderBottom: "1px solid #e0e0e0",
+                          borderRadius: "6px 6px 0 0"
+                        },
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                            style: { display: "flex", alignItems: "center", gap: "10px" },
+                            children: [
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("a", {
+                                href: getJiraTaskUrl(taskGroup.issueKey),
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                style: {
+                                  color: "#0066cc",
+                                  textDecoration: "none",
+                                  fontWeight: "bold",
+                                  fontSize: "14px"
+                                },
+                                children: taskGroup.issueKey
+                              }),
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("span", {
+                                style: { fontSize: "12px", color: "#666" },
+                                children: taskGroup.assignee ? t2("sankey.table.assignee") + ": " + taskGroup.assignee : ""
+                              }),
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("span", {
+                                style: { fontSize: "12px", color: "#666" },
+                                children: "(" + taskGroup.transitions.length + " " + t2("sankey.transitions") + ")"
+                              })
+                            ]
+                          })
+                        ]
+                      }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
+                        style: { padding: "0" },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx("table", {
+                          style: {
+                            width: "100%",
+                            borderCollapse: "collapse",
+                            fontSize: "11px"
+                          },
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", {
+                              style: { backgroundColor: "#f8f8f8" },
+                              children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", {
+                                children: [
+                                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", {
+                                    children: t2("sankey.table.from-column"),
+                                    style: { padding: "6px 8px", textAlign: "left", borderBottom: "1px solid #ddd", fontSize: "11px" }
+                                  }),
+                                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", {
+                                    children: t2("sankey.table.to-column"),
+                                    style: { padding: "6px 8px", textAlign: "left", borderBottom: "1px solid #ddd", fontSize: "11px" }
+                                  }),
+                                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", {
+                                    children: t2("sankey.table.date"),
+                                    style: { padding: "6px 8px", textAlign: "left", borderBottom: "1px solid #ddd", fontSize: "11px" }
+                                  })
+                                ]
+                              })
+                            }),
+                            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", {
+                              children: taskGroup.transitions.map((transition, transitionIndex) =>
+                                /* @__PURE__ */ jsxRuntimeExports.jsx("tr", {
+                                  key: transitionIndex,
+                                  style: { backgroundColor: transitionIndex % 2 === 0 ? "#fff" : "#f9f9f9" },
+                                  children: [
+                                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", {
+                                      style: { padding: "6px 8px", borderBottom: "1px solid #eee" },
+                                      children: transition.fromColumn
+                                    }),
+                                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", {
+                                      style: { padding: "6px 8px", borderBottom: "1px solid #eee" },
+                                      children: transition.toColumn
+                                    }),
+                                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", {
+                                      style: { padding: "6px 8px", borderBottom: "1px solid #eee" },
+                                      children: transition.transitionDate
+                                    })
+                                  ]
+                                })
+                              )
+                            })
+                          ]
+                        })
+                      })
+                    ]
+                  })
+                )
+              })
+            ]
+          })
+        ]
+      });
+};
+
 const App = observer(({ dataLoader: dataLoader2 }) => {
   var _a2, _b2, _c2, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   const { t: t2 } = useTranslation();
@@ -107586,7 +108073,8 @@ const App = observer(({ dataLoader: dataLoader2 }) => {
             /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.lead-time-distributions") }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.long-times") }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.wia") }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.trend") })
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.trend") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Tab, { children: t2("app.tabs.sankey") })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TabPanel, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
             MainStatChart,
@@ -107681,6 +108169,16 @@ const App = observer(({ dataLoader: dataLoader2 }) => {
             {
               title: (_n = dataLoader2.kanbanBoardConfig) == null ? void 0 : _n.name,
               periodStat: dataLoader2.periodStat
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TabPanel, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SankeyTransitions,
+            {
+              title: (_n = dataLoader2.kanbanBoardConfig) == null ? void 0 : _n.name,
+              columns: dataLoader2.columns,
+              kanbanCFD: dataLoader2.kanbanCFD,
+              periodStat: dataLoader2.periodStat,
+              config: dataLoader2.conf
             }
           ) })
         ]
@@ -108274,6 +108772,12 @@ loadCFD_fn = async function() {
     url += "&quickFilterId=" + id2;
   }
   const kanbanCFD = await fetch(url).then((res) => res.json());
+  console.log('Loaded kanbanCFD:', { 
+    hasColumnChanges: !!kanbanCFD.columnChanges,
+    columnChangesCount: kanbanCFD.columnChanges ? Object.keys(kanbanCFD.columnChanges).length : 0,
+    columnsCount: kanbanCFD.columns ? kanbanCFD.columns.length : 0,
+    url 
+  });
   runInAction(() => {
     this.kanbanCFD = kanbanCFD;
   });
