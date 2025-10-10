@@ -108477,6 +108477,7 @@ const urlParams = new URLSearchParams(queryString);
 const jiraBase = urlParams.get("base") || "";
 const jiraBoardId = urlParams.get("board") || "";
 const dataLoader = new DataLoader(progressBarData, jiraBase, jiraBoardId);
+window.jka = { dataLoader };
 Modal.setAppElement("#root");
 clientExports.createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(App, { dataLoader })
