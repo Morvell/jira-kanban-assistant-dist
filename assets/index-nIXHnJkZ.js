@@ -91213,6 +91213,43 @@ const MainStatChart = ({ title, periodStat }) => {
       itemStyle: {
         color: "rgba(64,255,64,0.75)"
       },
+      markLine: {
+        symbol: ["none", "none"],
+        precision: 0,
+        label: {
+          show: true,
+          formatter: "{b}: {c}"
+        },
+        lineStyle: {
+          type: [5, 9]
+        },
+        data: [
+          {
+            name: t2("main.series.throughput.avg"),
+            type: "average",
+            label: {
+              position: "end",
+              color: "rgba(128,0,128,0.95)"
+            },
+            lineStyle: {
+              color: "rgba(128,0,128,0.95)"
+            }
+          },
+          {
+            name: t2("main.series.throughput.med"),
+            type: "median",
+            label: {
+              distance: [50, 0],
+              position: "end",
+              color: "rgba(64,192,192,0.85)"
+            },
+            lineStyle: {
+              color: "rgba(64,192,192,0.85)",
+              dashOffset: 7
+            }
+          }
+        ]
+      },
       data: []
     };
     const serLead = {
