@@ -107519,7 +107519,13 @@ const TrendChart = ({ title, periodStat }) => {
 
 const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) => {
   const { t: t2 } = useTranslation();
-  const [selectedPeriod, setSelectedPeriod] = React.useState('all');
+  const [selectedPeriod, setSelectedPeriod] = React.useState(() => {
+    // По умолчанию выбираем последний период, если он есть
+    if (periodStat && periodStat.length > 0) {
+      return (periodStat.length - 1).toString();
+    }
+    return 'all';
+  });
   const [transitionsData, setTransitionsData] = React.useState([]);
   const [groupedTransitions, setGroupedTransitions] = React.useState([]);
   const [selectedTransition, setSelectedTransition] = React.useState(null);
@@ -107558,6 +107564,14 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
       setSelectedTransition(null);
     }
   };
+  
+  // Effect to update selected period when periodStat data loads
+  React.useEffect(() => {
+    if (periodStat && periodStat.length > 0 && selectedPeriod === 'all') {
+      // Если данные загрузились и текущий выбор - "все периоды", переключаемся на последний период
+      setSelectedPeriod((periodStat.length - 1).toString());
+    }
+  }, [periodStat, selectedPeriod]);
   
   // Effect for updating Sankey diagram data when period changes
   React.useEffect(() => {
