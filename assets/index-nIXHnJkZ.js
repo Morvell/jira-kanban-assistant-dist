@@ -106263,7 +106263,7 @@ const sankey$1 = {
   "transitions-table-title": "Transitions Details",
   "tasks": "tasks",
   "transitions": "transitions",
-  "filtered-by-transition": "Filtered by transition",
+  "filtered-by-transition": "Tasks with transition",
   "clear-filter": "Clear filter",
   "click-hint": "💡 Click on any transition in the diagram to filter tasks by that specific transition",
   "table": {
@@ -106304,7 +106304,7 @@ const sankey = {
   "transitions-table-title": "Детали переходов",
   "tasks": "задач",
   "transitions": "переходов",
-  "filtered-by-transition": "Отфильтровано по переходу",
+  "filtered-by-transition": "Задачи с переходом",
   "clear-filter": "Сбросить фильтр",
   "click-hint": "💡 Кликните на любой переход в диаграмме, чтобы отфильтровать задачи по этому переходу",
   "table": {
@@ -107746,10 +107746,23 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
     let filteredTransitionsResult = transitionsData;
     if (selectedTransition) {
       const [fromCol, toCol] = selectedTransition.split('__');
+      
+      // Находим все задачи, которые содержат выбранный переход
+      const tasksWithSelectedTransition = new Set();
+      transitionsData.forEach(transition => {
+        if (transition.fromColumn === fromCol && transition.toColumn === toCol) {
+          tasksWithSelectedTransition.add(transition.issueKey);
+        }
+      });
+      
+      // Показываем все переходы этих задач
       filteredTransitionsResult = transitionsData.filter(transition => 
-        transition.fromColumn === fromCol && transition.toColumn === toCol
+        tasksWithSelectedTransition.has(transition.issueKey)
       );
-      console.log('Filtered transitions by selected transition:', selectedTransition, filteredTransitionsResult.length);
+      
+      console.log('Filtered transitions by selected transition:', selectedTransition, 
+        'Tasks with transition:', tasksWithSelectedTransition.size, 
+        'Total transitions for these tasks:', filteredTransitionsResult.length);
     }
     setFilteredTransitions(filteredTransitionsResult);
     
