@@ -106260,6 +106260,9 @@ const trend$1 = { "help": { "text": "Trend analysis of key performance indicator
 const sankey$1 = { 
   "period-filter": "Period filter", 
   "all-periods": "All periods",
+  "diagram-type": "Diagram type",
+  "circular": "Circular",
+  "standard": "Standard",
   "transitions-table-title": "Transitions Details",
   "tasks": "tasks",
   "transitions": "transitions",
@@ -106301,6 +106304,9 @@ const trend = { "help": { "text": "Тренды изменения ключев�
 const sankey = { 
   "period-filter": "Фильтр по периоду", 
   "all-periods": "Все периоды",
+  "diagram-type": "Тип диаграммы",
+  "circular": "Круговая",
+  "standard": "Стандартная",
   "transitions-table-title": "Детали переходов",
   "tasks": "задач",
   "transitions": "переходов",
@@ -107553,14 +107559,17 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
   const handleSankeyClick = (params) => {
     console.log('Sankey click:', params);
     
-    if (params.componentType === 'series' && params.dataType === 'edge') {
-      // Clicked on a link (transition)
+    if (params.dataType === 'edge') {
       const linkData = params.data;
-      const transitionKey = `${linkData.source}__${linkData.target}`;
-      console.log('Selected transition:', transitionKey);
-      setSelectedTransition(transitionKey);
+      const sourceIndex = parseInt(linkData.source);
+      const targetIndex = parseInt(linkData.target);
+      
+      if (!isNaN(sourceIndex) && !isNaN(targetIndex) && sankeyData.data[sourceIndex] && sankeyData.data[targetIndex]) {
+        const transitionKey = `${sankeyData.data[sourceIndex].name}__${sankeyData.data[targetIndex].name}`;
+        console.log('Selected transition:', transitionKey);
+        setSelectedTransition(transitionKey);
+      }
     } else {
-      // Clicked elsewhere, reset filter
       setSelectedTransition(null);
     }
   };
@@ -107647,29 +107656,27 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
             const fromName = columns[fromIndex]?.name || `Column ${fromIndex}`;
             const toName = columns[toIndex]?.name || `Column ${toIndex}`;
             
-            // Only allow forward transitions for Sankey diagram
-            if (toIndex > fromIndex) {
-              console.log('Processing forward transition:', { fromIndex, toIndex, fromCol, toCol, fromName, toName });
-              nodeSet.add(fromName);
-              nodeSet.add(toName);
-              
-              const key = `${fromName}__${toName}`;
-              linksMap.set(key, (linksMap.get(key) || 0) + 1);
-              
-              // Collect detailed transition data for the table
-              detailedTransitions.push({
-                issueKey: transition.issueKey || transition.key || `TASK-${transitionTime}`,
-                issueId: transition.issueId || transition.id,
-                fromColumn: fromName,
-                toColumn: toName,
-                fromColumnId: fromCol,
-                toColumnId: toCol,
-                transitionTime: transitionTime,
-                transitionDate: new Date(transitionTime).toLocaleString(),
-                assignee: transition.assignee,
-                summary: transition.summary || transition.title
-              });
-            }
+            // Allow all transitions including backward transitions for Circular Sankey diagram
+            console.log('Processing transition:', { fromIndex, toIndex, fromCol, toCol, fromName, toName });
+            nodeSet.add(fromName);
+            nodeSet.add(toName);
+            
+            const key = `${fromName}__${toName}`;
+            linksMap.set(key, (linksMap.get(key) || 0) + 1);
+            
+            // Collect detailed transition data for the table
+            detailedTransitions.push({
+              issueKey: transition.issueKey || transition.key || `TASK-${transitionTime}`,
+              issueId: transition.issueId || transition.id,
+              fromColumn: fromName,
+              toColumn: toName,
+              fromColumnId: fromCol,
+              toColumnId: toCol,
+              transitionTime: transitionTime,
+              transitionDate: new Date(transitionTime).toLocaleString(),
+              assignee: transition.assignee,
+              summary: transition.summary || transition.title
+            });
           }
         }
       }
@@ -107679,7 +107686,20 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
     const sortedTransitions = detailedTransitions.sort((a, b) => b.transitionTime - a.transitionTime);
     setTransitionsData(sortedTransitions);
 
-    const data = Array.from(nodeSet).map(name => ({ name, draggable: true }));
+    // Sort nodes by their order in columns array
+    const columnIndexMap = new Map();
+    columns.forEach((col, index) => {
+      columnIndexMap.set(col.name, index);
+    });
+    
+    // Get all unique node names and sort them by column order
+    const sortedNodeNames = Array.from(nodeSet).sort((a, b) => {
+      const indexA = columnIndexMap.get(a) ?? Infinity; // Put unknown columns at the end
+      const indexB = columnIndexMap.get(b) ?? Infinity;
+      return indexA - indexB;
+    });
+    
+    const data = sortedNodeNames.map(name => ({ name, draggable: true }));
     const links = Array.from(linksMap.entries()).map(([k, v]) => {
       const [source, target] = k.split("__");
       return { source, target, value: v };
@@ -107795,23 +107815,115 @@ const SankeyTransitions = ({ title, columns, kanbanCFD, periodStat, config }) =>
   const option = React.useMemo(() => {
     console.log('SankeyTransitions option:', { title, sankeyData });
     
+    // Standard Sankey-like diagram using graph (supports cycles)
+    const nodeMap = new Map();
+    
+    // Create map: column name -> index in columns array for ordering
+    const columnIndexMap = new Map();
+    columns.forEach((col, index) => {
+      columnIndexMap.set(col.name, index);
+    });
+    
+    // Sort nodes by their order in columns array
+    const sortedNodes = [...sankeyData.data].sort((a, b) => {
+      const indexA = columnIndexMap.get(a.name) ?? Infinity;
+      const indexB = columnIndexMap.get(b.name) ?? Infinity;
+      return indexA - indexB;
+    });
+    
+    // Build nodeMap with sorted order
+    sortedNodes.forEach((node, index) => {
+      nodeMap.set(node.name, index);
+    });
+    
+    // Calculate node positions horizontally (like Sankey)
+    const nodeCount = sortedNodes.length;
+    const nodeWidth = 100;
+    const nodeSpacing = 200;
+    const startX = 100;
+    const centerY = 300;
+    
+    const graphNodes = sortedNodes.map((node, index) => ({
+      id: index.toString(),
+      name: node.name,
+      x: startX + (index * nodeSpacing),
+      y: centerY,
+      symbolSize: [nodeWidth, 40],
+      itemStyle: {
+        color: `hsl(${(index * 360) / nodeCount}, 70%, 50%)`
+      },
+      label: {
+        show: true,
+        position: 'inside'
+      }
+    }));
+    
+    const graphLinks = sankeyData.links.map(link => {
+      const sourceIndex = nodeMap.get(link.source);
+      const targetIndex = nodeMap.get(link.target);
+      const isBackward = sourceIndex >= targetIndex; // Обратный переход
+      
+      return {
+        source: sourceIndex?.toString() || link.source,
+        target: targetIndex?.toString() || link.target,
+        value: link.value,
+        lineStyle: {
+          width: Math.max(2, Math.min(20, link.value * 2)),
+          curveness: isBackward ? 0.5 : 0.3, // More curve for backward transitions
+          color: isBackward ? '#ff6b6b' : undefined, // Красный цвет для обратных переходов
+          type: isBackward ? 'dashed' : 'solid' // Пунктир для обратных переходов
+        },
+        label: {
+          show: true,
+          formatter: `${link.value}`,
+          position: 'middle'
+        }
+      };
+    });
+    
     return {
       title: { text: t2("app.tabs.sankey") + ": " + title, left: "center" },
       tooltip: { 
         trigger: "item",
-        formatter: "{b}: {c} transitions"
+        formatter: (params) => {
+          if (params.dataType === 'node') {
+            return `${params.data.name}`;
+          } else if (params.dataType === 'edge') {
+            const sourceNode = graphNodes.find(n => n.id === params.data.source);
+            const targetNode = graphNodes.find(n => n.id === params.data.target);
+            return `${sourceNode?.name || ''} → ${targetNode?.name || ''}: ${params.data.value} transitions`;
+          }
+          return params.name;
+        }
       },
       series: [{
-        type: "sankey",
-        data: sankeyData.data,
-        links: sankeyData.links,
-        emphasis: { focus: "adjacency" },
-        lineStyle: { color: "gradient", curveness: 0.5 },
+        type: "graph",
+        layout: "none",
+        data: graphNodes,
+        links: graphLinks,
+        emphasis: { 
+          focus: "adjacency",
+          lineStyle: {
+            width: 4
+          }
+        },
+        lineStyle: { 
+          color: "source",
+          curveness: 0.3
+        },
+        label: { 
+          show: true,
+          formatter: "{b}"
+        },
+        roam: true,
         draggable: true,
-        label: { color: "auto" }
+        edgeLabel: {
+          show: true,
+          formatter: "{c}"
+        }
       }]
     };
-  }, [title, sankeyData, t2]);
+  }, [title, sankeyData, columns, t2]);
       
       return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { 
         children: [
